@@ -1,6 +1,7 @@
 const Movie = require('../model/Movie');
 const NotFoundError = require('../errors/NotFoundErrors');
 const ValidationError = require('../errors/ValidationError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 const getMovies = async (req, res, next) => {
   try {
@@ -40,10 +41,16 @@ const createMovie = async (req, res, next) => {
 };
 const deleteMovie = async (req, res, next) => {
   try {
-    const selectMovie = await Movie.findByIdAndDelete(req.params.movieId).orFail(
-      new NotFoundError('Фильм по данному ID не найдена'),
+    console.log(req.params.movieId);
+    const selectMovie = await Movie.findById(req.params.movieId).orFail(
+      new NotFoundError('Карточка по данному ID не найдена'),
     );
-    res.status(200).send(selectMovie);
+    if (selectMovie.owner.toString() === req.user._id) {
+      const movie = await Movie.findByIdAndDelete(req.params.movieId);
+      res.status(200).send(movie);
+    } else {
+      next(new ForbiddenError('Не являетесь владельцем карточи'));
+    }
   } catch (error) {
     if (error.name === 'CastError') {
       next(new ValidationError('Передан не корректный ID'));

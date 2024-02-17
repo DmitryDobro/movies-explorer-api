@@ -6,6 +6,7 @@ const ValidationError = require('../errors/ValidationError');
 const AuthError = require('../errors/AuthError');
 const ConflictError = require('../errors/ConflictError');
 
+const { JWT_SECRET } = process.env;
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -14,12 +15,9 @@ const login = async (req, res, next) => {
     if (matched) {
       const token = jwt.sign(
         { _id: user._id },
-        'some-secret-key',
-        // process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
       );
       res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true, sameSite: true }).send({ user });
-      // console.log(token);
-      // res.status(200).send({ token });
     } else {
       throw new AuthError('Неправильные почта или пароль');
     }
