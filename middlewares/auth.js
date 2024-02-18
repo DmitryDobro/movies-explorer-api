@@ -8,7 +8,7 @@ const auth = (req, res, next) => {
     const token = req.headers.cookie;
     // const token = req.headers.authorization;
     if (!token) {
-      throw new AuthError('Неправильные почта или пароль');
+      throw new AuthError('Необходима авторизация');
     }
     const validToken = token.replace('jwt=', '');
     payload = jwt.verify(validToken, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
     next();
   } catch (error) {
     if (error.message === 'NotAuthorization') {
-      next(new AuthError('Неправильные почта или пароль'));
+      next(new AuthError('Необходима авторизация'));
     } else {
       next(error);
     }

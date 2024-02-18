@@ -5,7 +5,7 @@ const ForbiddenError = require('../errors/ForbiddenError');
 
 const getMovies = async (req, res, next) => {
   try {
-    const movies = await Movie.find({});
+    const movies = await Movie.find({ owner: req.user._id });
     res.status(200).send(movies);
   } catch (error) {
     next(error);
@@ -15,6 +15,7 @@ const createMovie = async (req, res, next) => {
   try {
     const {
       country, director, duration, year, description, image, trailerLink, nameRU, nameEN, thumbnail,
+      movieId,
     } = req.body;
     const owner = req.user._id;
     const newCard = await Movie.create({
@@ -29,6 +30,7 @@ const createMovie = async (req, res, next) => {
       nameEN,
       thumbnail,
       owner,
+      movieId,
     });
     res.status(201).send(newCard);
   } catch (error) {
@@ -41,7 +43,6 @@ const createMovie = async (req, res, next) => {
 };
 const deleteMovie = async (req, res, next) => {
   try {
-    console.log(req.params.movieId);
     const selectMovie = await Movie.findById(req.params.movieId).orFail(
       new NotFoundError('Карточка по данному ID не найдена'),
     );

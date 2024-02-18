@@ -21,10 +21,10 @@ const validateUserAuth = celebrate({
 const validateUpdateateUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    email: Joi.string().min(2).max(30),
+    email: Joi.string().required().email(),
   }),
 });
-// валидация создания карточки
+// валидация создания фильма
 const validateCreateMovie = celebrate({
   body: Joi.object().keys({
     country: Joi.string().min(2).max(30).required(),
@@ -37,6 +37,7 @@ const validateCreateMovie = celebrate({
     nameRU: Joi.string().min(2).max(30).required(),
     nameEN: Joi.string().min(2).max(30).required(),
     thumbnail: Joi.string().pattern(regex),
+    movieId: Joi.number().required(),
   }),
 });
 

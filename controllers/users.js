@@ -7,6 +7,13 @@ const AuthError = require('../errors/AuthError');
 const ConflictError = require('../errors/ConflictError');
 
 const { JWT_SECRET } = process.env;
+const logout = async (req, res, next) => {
+  try {
+    res.clearCookie('jwt').send();
+  } catch (error) {
+    next(error);
+  }
+};
 const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -62,6 +69,8 @@ const uppdateUser = async (req, res, next) => {
   } catch (error) {
     if (error.name === 'ValidationError') {
       next(new ValidationError('Пераданы не валидные данные'));
+    } else if (error.code === 11000) {
+      next(new ConflictError('Пользовательс с такой почтой уже существут'));
     } else {
       next(error);
     }
@@ -72,4 +81,5 @@ module.exports = {
   login,
   getUserInfo,
   uppdateUser,
+  logout,
 };
