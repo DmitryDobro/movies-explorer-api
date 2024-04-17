@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
-  origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru/signin', 'http://bitfilmsdb.nomoredomainswork.ru/signin', 'http://api.bitfilmsdb.nomoredomainswork.ru/', 'https://api.bitfilmsdb.nomoredomainswork.ru/'],
+  origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru', 'http://bitfilmsdb.nomoredomainswork.ru', 'http://api.bitfilmsdb.nomoredomainswork.ru', 'https://api.bitfilmsdb.nomoredomainswork.ru', 'https://api.bitfilmsdb.nomoredomainswork.ru/signin'],
   credentials: true,
 }));
 app.use(helmet());
@@ -26,6 +26,6 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorsHandle);
-app.listen(3001, () => {
+app.listen(3000, () => {
   console.log(3001);
 });
