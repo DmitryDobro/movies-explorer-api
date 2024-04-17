@@ -13,13 +13,10 @@ const errorsHandle = require('./middlewares/errorsHandlers');
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors(
-  {
-    origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru/signin', 'http://bitfilmsdb.nomoredomainswork.ru/signin', 'http://api.bitfilmsdb.nomoredomainswork.ru/', 'https://api.bitfilmsdb.nomoredomainswork.ru/'],
-    credentials: true,
-  },
-
-));
+app.use(cors({
+  origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru/signin', 'http://bitfilmsdb.nomoredomainswork.ru/signin', 'http://api.bitfilmsdb.nomoredomainswork.ru/', 'https://api.bitfilmsdb.nomoredomainswork.ru/'],
+  credentials: true,
+}));
 app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
@@ -29,6 +26,6 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorsHandle);
-app.listen(3000, () => {
+app.listen(3001, () => {
   console.log(3001);
 });
