@@ -9,7 +9,7 @@ const router = require('./routers/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorsHandle = require('./middlewares/errorsHandlers');
 
-const { PORT, DB_ADRESS } = process.env;
+// const { PORT, DB_ADRESS } = process.env;
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -29,6 +29,6 @@ app.use(errorLogger);
 app.use(errors());
 
 app.use(errorsHandle);
-app.listen(PORT, () => {
-  console.log(PORT);
+app.listen(3001, () => {
+  console.log(3001);
 });
