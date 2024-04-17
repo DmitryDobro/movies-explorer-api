@@ -6,6 +6,7 @@ const ForbiddenError = require('../errors/ForbiddenError');
 const getMovies = async (req, res, next) => {
   try {
     const movies = await Movie.find({ owner: req.user._id });
+    console.log();
     res.status(200).send(movies);
   } catch (error) {
     next(error);
@@ -32,6 +33,7 @@ const createMovie = async (req, res, next) => {
       owner,
       movieId,
     });
+    console.log(owner);
     res.status(201).send(newCard);
   } catch (error) {
     if (error.name === 'ValidationError') {
@@ -43,9 +45,11 @@ const createMovie = async (req, res, next) => {
 };
 const deleteMovie = async (req, res, next) => {
   try {
+    console.log(req.params.movieId);
     const selectMovie = await Movie.findById(req.params.movieId).orFail(
       new NotFoundError('Карточка по данному ID не найдена'),
     );
+    console.log(selectMovie);
     if (selectMovie.owner.toString() === req.user._id) {
       const movie = await Movie.findByIdAndDelete(req.params.movieId);
       res.status(200).send(movie);

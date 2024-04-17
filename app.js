@@ -3,17 +3,28 @@ const express = require('express');
 const mongoose = require('mongoose');
 const helmet = require('helmet');
 const { errors } = require('celebrate');
+const bodyParser = require('body-parser');
+const cors = require('cors');
 const router = require('./routers/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorsHandle = require('./middlewares/errorsHandlers');
 
 const { PORT, DB_ADRESS } = process.env;
 const app = express();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors(
+  {
+    origin: ['http://localhost:5173'],
+    credentials: true,
+  },
+
+));
 app.use(helmet());
 app.use(express.json());
 app.use(requestLogger);
 app.use(router);
-mongoose.connect(DB_ADRESS);
+mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
 app.use(errorLogger);
 app.use(errors());
 

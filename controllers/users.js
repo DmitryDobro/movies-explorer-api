@@ -24,7 +24,9 @@ const login = async (req, res, next) => {
         { _id: user._id },
         process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
       );
-      res.cookie('jwt', token, { maxAge: 3600000, httpOnly: true, sameSite: true }).send({ user });
+      res.cookie('jwt', token, {
+        maxAge: 3600000000000, httpOnly: true, sameSite: 'none', secure: true,
+      }).send({ token });
     } else {
       throw new AuthError('Неправильные почта или пароль');
     }
@@ -62,6 +64,7 @@ const getUserInfo = async (req, res, next) => {
   }
 };
 const uppdateUser = async (req, res, next) => {
+  console.log(123);
   try {
     const { name, email } = req.body;
     const newUserData = await User.findByIdAndUpdate(req.user._id, { name, email }, { new: true, runValidators: true }).orFail(() => new NotFoundError('Польователь по данному ID не найден'));

@@ -20,22 +20,22 @@ const validateUserAuth = celebrate({
 // валидация изменения информации о пользователя
 const validateUpdateateUser = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
     email: Joi.string().required().email(),
+    name: Joi.string().min(2).max(30),
   }),
 });
 // валидация создания фильма
 const validateCreateMovie = celebrate({
   body: Joi.object().keys({
-    country: Joi.string().min(2).max(30).required(),
-    director: Joi.string().min(2).max(30).required(),
-    duration: Joi.string().min(2).max(30).required(),
+    country: Joi.string().required(),
+    director: Joi.string().min(2).required(),
+    duration: Joi.number().required(),
     year: Joi.string().min(2).max(30).required(),
-    description: Joi.string().min(2).max(30).required(),
+    description: Joi.string().required(),
     image: Joi.string().pattern(regex),
     trailerLink: Joi.string().pattern(regex),
-    nameRU: Joi.string().min(2).max(30).required(),
-    nameEN: Joi.string().min(2).max(30).required(),
+    nameRU: Joi.string().min(2).required(),
+    nameEN: Joi.string().min(2).required(),
     thumbnail: Joi.string().pattern(regex),
     movieId: Joi.number().required(),
   }),

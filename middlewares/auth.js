@@ -13,7 +13,6 @@ const auth = (req, res, next) => {
     const validToken = token.replace('jwt=', '');
     payload = jwt.verify(validToken, process.env.NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
     req.user = payload;
-    console.log(req.user);
     next();
   } catch (error) {
     if (error.message === 'NotAuthorization') {
