@@ -15,7 +15,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(
   {
-    origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru/signin', 'http://bitfilmsdb.nomoredomainswork.ru/signin'],
+    origin: ['http://localhost:5173', 'https://bitfilmsdb.nomoredomainswork.ru/signin', 'http://bitfilmsdb.nomoredomainswork.ru/signin', 'http://api.bitfilmsdb.nomoredomainswork.ru/', 'https://api.bitfilmsdb.nomoredomainswork.ru/'],
     credentials: true,
   },
 
